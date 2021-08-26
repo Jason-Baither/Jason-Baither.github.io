@@ -62,8 +62,10 @@
     
     --->
     <style>
-        body{background-color:#2f2f2f}
-        
+        body{
+		background-color:#2f2f2f; 
+		background-image: url('https://files.catbox.moe/se9a9l.gif');
+	    }
         html{
             font-size: 14px;
             }
@@ -5190,7 +5192,7 @@ function checkForNewPremiumEmotes(){
         const emoteinfo_str = JSON.stringify(data, null, 4);
         //console.log(emoteinfo_str);
         const emotes_info_obj =  JSON.parse(emoteinfo_str);
-        console.log('after the parser runs');
+        //console.log('after the parser runs');
         emotes_obj = emotes_info_obj;
         /*for( const emote in emotes_info_obj.emotes){
             const ename = emotes_info_obj.emotes[emote].name;
@@ -5248,8 +5250,8 @@ function processPremiumEmotes(messageText){
                 //premiumEmotes = premiumEmotes.replace('/:'+ alt +':/gi','<img src="' + eurl + '" alt="'+alt+'">');
                 //const pattern = new RegExp(`[^\"]:${alt}:[^\"]`, 'gi' );
                 const pattern = new RegExp(`:${alt}:`, 'gi' );
-                //console.log(pattern);
-                //console.log(replacer);
+                console.log(pattern);
+                console.log(replacer);
                 //el.message = el.message.replace(pattern, `<span class="highlight">$&</span>`);
                 premiumEmotes = premiumEmotes.replace(pattern,replacer);
                 //console.log(premiumEmotes);
