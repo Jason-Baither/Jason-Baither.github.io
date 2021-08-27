@@ -101,8 +101,8 @@
         background-size: 800% 800%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-size: 24px;
-        animation: rainbow 8s ease infinite;
+        font-size: 54px;
+        animation: rainbow 0.1s ease infinite;
         }
 
         @keyframes rainbow { 
@@ -110,7 +110,12 @@
             50%{background-position:100% 25%}
             100%{background-position:0% 50%}
         }
-
+        .avatar{
+            float: left;
+            width: 20px;
+            height: 20px;
+            
+        }
         
         div.messagesc{
          background-color:#0f0f0f;
@@ -119,7 +124,6 @@
          width:475px;
          color:#00f090;
          max-height: 600px;
-         
         }
         
         li {
@@ -150,13 +154,13 @@
             overflow-x:hidden;
             overflow-y:hidden;
             overflow:hidden;
-            max-height: 50px;
+            max-height: 24px;
             float: right;
             display: block;
             background-color:rgba(96,125,139,0.6);
             max-width: 120px;
-        }
-        
+	    border-radius: 12%;
+            }
         a {
             color:#2196f3;
         }
@@ -173,19 +177,18 @@
             font-family: "Comic Sans MS", "Comic Sans", cursive;
             overflow-wrap: break-word;
             min-height: 30px;
-        }
-        
-        .avatar{
-            float: left;
-            width: 34px;
-            height: 34px;
-            
+            background-image: repeating-linear-gradient(45deg, red, yellow, blue, orange, green, violet);
+            background-size: 800% 800%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 14px;
+            animation: rainbow 1s ease infinite;
         }
         
         .userav{
             width: 34px;
             height: 34px;
-            border-radius: 50%;
+            border-radius: 12%;
         }
         
         .material-icons {
@@ -466,9 +469,9 @@
             
             color: #fff;
             text-align: center;
-            -webkit-animation: glow 1s ease-in-out infinite alternate;
-            -moz-animation: glow 1s ease-in-out infinite alternate;
-            animation: glow 1s ease-in-out infinite alternate;
+            -webkit-animation: glow 0.1s ease-in-out infinite alternate;
+            -moz-animation: glow 0.1s ease-in-out infinite alternate;
+            animation: glow 0.1s ease-in-out infinite alternate;
         }
         
         .glowgreen {
@@ -5325,7 +5328,7 @@ function addMessage(el){
     // clean up script
     el.message = el.message.replace(/<script>/g,"");
     el.message = el.message.replace(/<\/script>/g,"");
-    // clean up buttons 
+    //clean up buttons 
     el.message = el.message.replace(/<button>/g,"");
     el.message = el.message.replace(/<\/button>/g,"");
     
@@ -5335,7 +5338,7 @@ function addMessage(el){
     el.message = el.message.replace(/<title>/g,"");
     el.message = el.message.replace(/<\/title>/g,"");
     
-    //el.message = el.message.replace(/((?:\<\>)\w?).*/g,"&lt;");
+    el.message = el.message.replace(/((?:\<\>)\w?).*/g,"&lt;");
     el.message = processPremiumEmotes(el.message);
     textnode.innerHTML = el.message; // might need to be text
     // <div style="transform: rotate(-60deg); background: linear-gradient(#685300, #E6B800)">Hello litechat :smug: <div>
