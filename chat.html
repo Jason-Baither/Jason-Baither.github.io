@@ -1545,6 +1545,7 @@ var nh = null;
 var lh = null;
 var pusername = 0;
 var pmessage = 0;
+var fusername = 0;
 var pcount = 1;
 var trollidd = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0aFVlIiwiaXNzIjoiaHR0cHM6Ly9hcGkuYml0d2F2ZS50diIsInVzZXIiOnsibmFtZSI6InRyb2xsOjRoVWUiLCJjb2xvciI6ImhzbCggMzIwLCA2NSUsIDU1JSwgMSApIiwidXNlckNvbG9yIjoiIzllOWU5ZSJ9LCJpYXQiOjE2MDgwNzUxNjF9.PYE9lzhDn0Sgezi6F1G3anR4EXLj9CCyHgIU3uCJX4s',
 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4VU5oIiwiaXNzIjoiaHR0cHM6Ly9hcGkuYml0d2F2ZS50diIsInVzZXIiOnsibmFtZSI6InRyb2xsOnhVTmgiLCJjb2xvciI6ImhzbCggMjgwLCA2MCUsIDUwJSwgMSApIiwidXNlckNvbG9yIjoiIzllOWU5ZSJ9LCJpYXQiOjE2MDgwNzUxNzJ9.HXFplLfZe7D3zvJIOhz41qw0eQ1bxF9MknDHz1AlPFU',
@@ -5287,11 +5288,12 @@ function addMessage(el){
     //console.log(el.username + ':',el.message);
     //gmessages += '[' + Date.now() + '] ' + el.username + ':\n' + el.message + "\n";
     if ($("textarea#ptotal").val() != ""){
-        if (el.username == pusername && el.message == pmessage && el.username != username){
+        if (el.username == pusername && el.message == pmessage && el.username != username && el.username != fusername){
             pcount = pcount + 1;
             if (pcount >= $("textarea#ptotal").val()){
                 socket.emit('message',{message:"Ignored User: " + el.username,channel:el.channel});
                 pcount = 1;
+		fusername = el.username;
             }
         } else {
             pcount = 1;
