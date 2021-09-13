@@ -5628,26 +5628,33 @@ function addChannel(chname){
 function cleanImages(message){
     // want to check all image tags to verify they source from https://cdn.bitwave.tv/
     let getImgUrl = /src\W*=[^\'"]*([\'"])([^\1]*?)\1/
+    let prematch = /<img([\w\W]+?)>/;
     let regex = /(http[s]?:\/\/.*\.(?:png|jpg|gif|svg|jpeg))/i;
     // (http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))
     let result ;
-    if (message.match(regex)){
-        console.log("says there is a url that needs cleaned");
-        let matches = regex.exec(message);
-        console.log(matches);
-        // this seems to work better and should be used to check each instance to see if its in the cdn 
-        matches.forEach( url => {
-            console.log("checking url:", url);
-            if(url.includes("https://cdn.bitwave.tv/")){
-                console.log("url is clean...");
-            }else{
-                // do a url replace to something else safer
-                console.log("need to clean the url",url);
-                const safe = "https://cdn.bitwave.tv/static/emotes/quack2-72.gif?4";
-                message = message.replace(url,safe);
+    if(message.match(prematch)){
+        let matchesImg = prematch.exec(message);
+        matchesImg.forEach( img => {
+            console.log("checking image", img);
+            if (img.match(regex)){
+                console.log("says there is a url that needs cleaned");
+                let matches = regex.exec(img);
+                console.log(matches);
+                // this seems to work better and should be used to check each instance to see if its in the cdn 
+                matches.forEach( url => {
+                    console.log("checking url:", url);
+                    if(url.includes("https://cdn.bitwave.tv/")){
+                        console.log("url is clean...");
+                    }else{
+                        // do a url replace to something else safer
+                        console.log("need to clean the url",url);
+                        const safe = "https://cdn.bitwave.tv/static/emotes/quack2-72.gif?4";
+                        message = message.replace(url,safe);
+                    }
+                });
+                
             }
         });
-        
     }
     /*if (message.match(getImgUrl)){
         console.log("says there is a url that needs cleaned src");
