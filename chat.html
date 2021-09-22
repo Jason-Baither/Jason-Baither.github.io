@@ -3002,8 +3002,8 @@ function updateAtCount(){
                     .replace(/&#39;/g,  `'`)
                 }
 
-                //el.message = unescapeHtml( el.message ); // Fixes escaped characters
-        //el.message = el.message.replace(/<\/?[^>]*>/g, '');
+                el.message = unescapeHtml( el.message ); // Fixes escaped characters
+        el.message = el.message.replace(/<\/?[^>]*>/g, '');
         
         // Remove Links
         el.message = el.message.replace(/((https?:\/\/)|(www\.))[^\s]+/gi, '');
@@ -3360,7 +3360,7 @@ function bindToNewProfileName(message){
         stuff_to_search = stuff_to_search.replace(/((https?:\/\/)|(www\.))[^\s]+/gi, '');
 
         // Remove html tags
-        //  stuff_to_search = stuff_to_search.replace(/<\/?[^>]*>/g, '');
+        stuff_to_search = stuff_to_search.replace(/<\/?[^>]*>/g, '');
         // need to do regex clean up of messages to get rid of the paragraph elements
         console.log("looking for bind of:",bindCodeForChat, ' in: ', stuff_to_search, ' message user: ', message.username);
         if(stuff_to_search.trim() == bindCodeForChat.trim()){
@@ -4469,8 +4469,8 @@ function readTTSmessage(message){
         voice.pitch = pitch;
         
         
-        // remove html tags
-        // message = message.replace(/<\/?[^>]*>/g, '');
+        // Remove html tags
+        message = message.replace(/<\/?[^>]*>/g, '');
         
         // Remove Links
         message = message.replace(/((https?:\/\/)|(www\.))[^\s]+/gi, '');
@@ -5201,7 +5201,7 @@ function checkForNewPremiumEmotes(){
         const emoteinfo_str = JSON.stringify(data, null, 4);
         //console.log(emoteinfo_str);
         const emotes_info_obj =  JSON.parse(emoteinfo_str);
-        //console.log('after the parser runs');
+        console.log('after the parser runs');
         emotes_obj = emotes_info_obj;
         /*for( const emote in emotes_info_obj.emotes){
             const ename = emotes_info_obj.emotes[emote].name;
@@ -5395,7 +5395,7 @@ function addMessage(el){
     el.message = el.message.replace(/<title>/g,"");
     el.message = el.message.replace(/<\/title>/g,"");
     
-    el.message = el.message.replace(/((?:\<\>)\w?).*/g,"&lt;");
+    //el.message = el.message.replace(/((?:\<\>)\w?).*/g,"&lt;");
     el.message = cleanImages(el.message);
     el.message = processPremiumEmotes(el.message);
     textnode.innerHTML = el.message; // might need to be text
@@ -5460,7 +5460,7 @@ function addMessage(el){
         theDate = new Date(el.timestamp)
     }
     const dateString = theDate.toLocaleTimeString();
-    textnodeDate.innerHTML = '[' + dateString + ']'; 
+    textnodeDate.textContent = '[' + dateString + ']'; 
     // add a click event to ignore toggle the user
     
     textnodeDate.addEventListener('click', function(e){
@@ -5511,19 +5511,19 @@ function addMessage(el){
         }
     );*/
     
-    textnodeUserName.innerHTML = el.username; 
+    textnodeUserName.textContent = el.username; 
     if( el.color){
         const ucolor = el.color;
         // neeed to convert the color probably....
         //console.log("color found:", ucolor)
-        textnodeUserName.innerHTML = '<span style=" color: '+ ucolor +';">'+el.username + '</span>'; 
+        //textnodeUserName.innerHTML = '<span style=" color: '+ ucolor +';">'+el.username + '</span>'; 
     }
     
     if(el.userColor){
         const ucolor = el.userColor;
         // neeed to convert the color probably....
         //console.log("color found:", ucolor)
-        textnodeUserName.innerHTML = '<span style=" color: '+ ucolor +';">'+el.username + '</span>'; 
+        //textnodeUserName.innerHTML = '<span style=" color: '+ ucolor +';">'+el.username + '</span>'; 
     
     }
     
@@ -5539,8 +5539,9 @@ function addMessage(el){
     
     var textnodeChannelName = document.createElement("div");
     textnodeChannelName.classList.add("channel");
-    textnodeChannelName.innerHTML = el.channel; 
-    // add a on click handler for 
+    //textnodeChannelName.innerHTML = el.channel;
+    textnodeChannelName.textContent = el.channel; 
+   // add a on click handler for 
     //const channel_action = 'changeChatChannel(\"' + el.channel + '\")'
     textnodeChannelName.addEventListener('click', function(e){
         // do something
@@ -6204,7 +6205,7 @@ function hydratev2 (data) {
                     }else{
                         // should try to get out the robot id and use it to find the name to use robot_id
                         const rbotname = "RS-" + json.robot_id;//getRsChannelName();
-                        const repack = { message: json.message, user: 'RS-' + json.username, msg_id: json.sid, user_count:-1,channel:rbotname};
+                        const repack = { message: json.message, user: '~' + json.username, msg_id: json.sid, user_count:-1,channel:rbotname};
                         said(repack);
                     }
                 }catch(ex)
