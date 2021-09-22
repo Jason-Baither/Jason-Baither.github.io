@@ -868,6 +868,7 @@ textarea:valid {
     <input id="chatBinder" class="hide" placeholder="ChatBindingCode" type="text">
     <input class="hide" onclick="sendPremium()" value="Premium™" type="button"><input id="playlistitem" placeholder="Url to play" type="text"><input onclick="addtoplaylist()" value="Add To Playlist Bot" type="button"><input type="button" onclick="silence()" value="Silence?">
     <input type="button" onclick="startPL()" value="Start PL">
+<input type="button" onclick="startPL()" value="Start PL"></input><input type="button" onclick="rsSend()" value="RS"></input>
 </div>
 
 </div>
@@ -888,7 +889,7 @@ textarea:valid {
 <input id="spamstop" onclick="spamMStop()" value="Spam Stop" type="button">
 </div>
 <div>
-<textarea minlength="3" maxlength="20" placeholder="delay" id="spamDelay" cols="8" rows="1"></textarea><textarea minlength="0" maxlength="3" placeholder="antispam" id="ptotal" cols="8" rows="1"></textarea>
+<textarea minlength="3" maxlength="20" placeholder="delay" id="spamDelay" cols="8" rows="1"></textarea><textarea minlength="0" maxlength="3" placeholder="antispam" id="ptotal" cols="8" rows="1"></textarea><textarea minlength="0" maxlength="5" placeholder="channel id" id="chaid" cols="8" rows="1"></textarea>
 </div>
 
 <script>
@@ -6351,7 +6352,7 @@ function hydratev2 (data) {
         var restofmessage = message.replace("/rs ","");
         const msg = {
             message:restofmessage,
-            'robot_id':"4126",
+            'robot_id':"$("textarea#chaid").val()",
             'owner_id': "52267",
             
             
