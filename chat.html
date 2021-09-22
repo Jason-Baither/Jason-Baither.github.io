@@ -1556,7 +1556,7 @@ var trollidd = ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0aFVlIiwiaXNzIj
 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJTQlJXIiwiaXNzIjoiaHR0cHM6Ly9hcGkuYml0d2F2ZS50diIsInVzZXIiOnsibmFtZSI6InRyb2xsOlNCUlciLCJjb2xvciI6ImhzbCggODAsIDc1JSwgNTAlLCAxICkiLCJ1c2VyQ29sb3IiOiIjOWU5ZTllIn0sImlhdCI6MTYwODA3NTIwMn0.jbH8josuGNXeo8qNeoImt9uIQ6ME6yooPdILcyln72I'];
 
 var litechat = true;
-litechat = false;
+//litechat = false; // turned off shitwave
 
 function get(name){
    if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
@@ -1762,11 +1762,11 @@ firebase.auth().onAuthStateChanged(function(user) {
             
             // just save the id and get the chat token at a later point
             
-            /*var xhttps = new XMLhttpsRequest();
-            xhttps.open("POST", "https://api.bitwave.tv/api/token", false);
-            //xhttps.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttps.send({ token: idToken, });
-            console.log("Our nice token:" , xhttps.responseText);*/
+            /*var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "https://api.bitwave.tv/api/token", false);
+            //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send({ token: idToken, });
+            console.log("Our nice token:" , xhttp.responseText);*/
             /*}catch(err){
                 console.log(err);
             }*/
@@ -2075,9 +2075,11 @@ hideWatchersList();
 var username = "troll";
 var channel = "markpugner";
 
-subscribeToPoll (channel);
+//subscribeToPoll (channel);
 
 var emotes_obj = null;
+
+var emotes_obj_bw = null;
 
 var ignore_set = new Set();
 
@@ -2823,7 +2825,7 @@ makeTrollID();
 
 setStreamMode();
 
-hydrateChat();
+//hydrateChat();
 restartConnection();
 
 var baseurl = 'https://bitwave.tv/'
@@ -3129,7 +3131,7 @@ function restartConnection(userProfile){
     }
     
         // this is the old bind reconnect, but leaves up the old profile
-        socket = io( 'wss://chat.bitwave.tv', { transports: ['websocket'] } );
+        //socket = io( 'wss://chat.bitwave.tv', { transports: ['websocket'] } ); // disabled shitwave
         const tempchannel = $( "#channelselect option:selected" ).text();
         // we need to do a check to see if we have a usertoken or not to do the connection
         if(usertoken){
@@ -3143,15 +3145,14 @@ function restartConnection(userProfile){
                     page: tempchannel
             }
             username = parseToken(usertoken).user.name;
-            //socket.on( 'connect', () => this.socket.emit('new user', userTokenObj) );
-            //socket.on( 'reconnect', () => this.socket.emit('new user', userTokenObj) );
             
+             
             activeUserProfile = userTokenObj;
             whisperSocketServer.emit('hi',username)
             if(recaptchat){
                 activeUserProfile.recaptcha = recaptchat;
             }
-            //socket.emit('new user', userTokenObj);
+            
             console.log("should have connected as:", username);
              $("#userid").val(username);
         
@@ -3164,10 +3165,8 @@ function restartConnection(userProfile){
                     token : trolltoken,
                     page  : tempchannel
                 };
-                //socket.on( 'connect', () => this.socket.emit('new user', tokenTroll) );
-                //socket.on( 'reconnect', () => this.socket.emit('new user', tokenTroll) );
-                //socket.emit('new user', tokenTroll);
-                activeUserProfile = tokenTroll;
+                
+                 activeUserProfile = tokenTroll;
                 //trolltoken
                 if(recaptchat){
                     activeUserProfile.recaptcha = recaptchat;
@@ -3183,23 +3182,16 @@ function restartConnection(userProfile){
         
         //socket.on( 'connect', this.connectToChat()); //() => this.socket.emit('new user', userProfile) );
         
-        
-        socket.on('connect', () => {
+        // disabled shitwave
+        /*socket.on('connect', () => {
             //socket.open();
             // get the recaptcha token
             // = getRecaptchaToken( 'connect' );
             // need to do firebase style stuff...
             //activeUserProfile.recaptcha = 
             //getRecaptchaToken('litechat');
-            /*grecaptcha.ready(function() {
-                grecaptcha.execute('6LcEX8QUAAAAADjiUPfbzkyn0KYAaEK263quzCGh', {action: 'litechat'}).then(function(rtoken) {
-                activeUserProfile.recaptcha = rtoken; // set our recaptcha
-                //activeUserProfile.recaptcha = rtoken;
-                console.log('Recaptoken:',rtoken);
-                //return recaptcha;
-                });
-            });*/
-            //getRecaptchaToken('litechat');
+            
+             //getRecaptchaToken('litechat');
             
             
             socket.emit('new user', activeUserProfile);
@@ -3218,7 +3210,7 @@ function restartConnection(userProfile){
         socket.on( 'update usernames', async data => await this.updateUserWatchInfo(data) );
 
         socket.on( 'blocked',   data =>  messageBlocked(data)  ); // shoves the message back into the send buffer
-        socket.on( 'pollstate', data => updatePoll(data) );
+        socket.on( 'pollstate', data => updatePoll(data) );*/
         
         
         // trying to debug the chat issue, just get rid of the disconnect handler, since the other one does not seem to get disconnected
@@ -3464,7 +3456,7 @@ function getChannelInfo(){
     });
 }
 
-getChannelInfo();
+//getChannelInfo(); // turned off shitwave
 
 
 function saveAutoScrollSetting(){
@@ -3650,7 +3642,7 @@ function sendWhisper(receiver,message){
     };
     //const { data } = await this.$axios.post( endpoint, payload, { progress: false, skipAuth: true } );
     try{
-    /*var xhr = new XMLhttpsRequest();
+    /*var xhr = new XMLHttpRequest();
     xhr.open("POST", endpoint,true);
     xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify(payload)); */
@@ -3939,7 +3931,7 @@ function send(){
     
     if(messageText.substr(0,4) == "/tos"){
         const msg = {
-            message: "Please read the [Terms of Service](https://bit.ly/2vkq4Mz)",
+            message: "Please read the [Terms of Service](http://bit.ly/2vkq4Mz)",
             channel: channel
           };
         if(socket){
@@ -3953,7 +3945,7 @@ function send(){
     //rngTrollSend()
     if(messageText.substr(0,9) == "/rngtroll"){
         /*const msg = {
-            message: "Please read the [Terms of Service](https://bit.ly/2vkq4Mz)",
+            message: "Please read the [Terms of Service](http://bit.ly/2vkq4Mz)",
             channel: channel
           };*/
         /*if(socket){
@@ -4175,7 +4167,7 @@ function send(){
         $("textarea#message").val("");
         //$('#messageListContainer').toggleClass("snow-bg");
         hydrateChat();
-        // force the manual update to hydrate chat from https
+        // force the manual update to hydrate chat from http
         return;
     }
     
@@ -4241,7 +4233,7 @@ function send(){
     }
     if(messageText.substr(0,4) == "/sir"){
         const msg = {
-            message: 'SIÂ­R',
+            message: 'SI­R',
             channel: channel
           };
         if(socket){
@@ -4271,9 +4263,18 @@ function send(){
         return;
     }
     
+    if(messageText.substr(0,3) == '/rs'){
+        
+        // say this to only litechat
+        
+        rsSend();
+        return;
+    }
+    
+    
     if(messageText.substr(0,7) == "/how2lc"){
         //toggleAFK();
-        // go to advanced and push the button that says gen bind code and copy, then paste that into regular bitwave chat if you want to have your regular username - This message was sent by Bitwave Premiumâ„¢
+        // go to advanced and push the button that says gen bind code and copy, then paste that into regular bitwave chat if you want to have your regular username - This message was sent by Bitwave Premium™
         const how2message = 'You need to click advanced, then push the button that says `Gen Bind Code AND COPY`, then paste that into a bitwave chat you are logged into and send it.';
         const msg = {
             message: how2message,
@@ -4845,7 +4846,7 @@ function handleNewViewerInfo(){
     });
 }
 
-handleNewViewerInfo();
+//handleNewViewerInfo(); // disabled shitwave
 
 
 function updateUserWatchInfo(data){
@@ -4920,8 +4921,10 @@ function said(data){
         console.log('from user:',data.user);
         //console.log('to user:',data.to);
         console.log('message:',data.message);
-        console.log('Users:', data.user_count);
-        
+        if(data.user_count > -1){
+            console.log('Users:', data.user_count);
+        }
+       
         $('#lc_count').text("LC:" + data.user_count);
         
         const msg_id = data.msg_id;
@@ -5213,6 +5216,32 @@ function checkForNewPremiumEmotes(){
     }catch(err){
     
     }
+    
+    // emotes_obj_bw
+    try{
+    $.get("https://bw.rnih.org/litechat/bwemotes.json", function(data, status){
+        //alert("Data: " + data + "\nStatus: " + status);
+        //console.log(data);
+        //console.log(JSON.stringify(data, null, 4))
+        const emoteinfo_str = JSON.stringify(data, null, 4);
+        //console.log(emoteinfo_str);
+        const emotes_info_obj =  JSON.parse(emoteinfo_str);
+        console.log('after the parser runs');
+        emotes_obj_bw = emotes_info_obj;
+        /*for( const emote in emotes_info_obj.emotes){
+            const ename = emotes_info_obj.emotes[emote].name;
+            const eurl = emotes_info_obj.emotes[emote].url;
+            
+            console.log('name:' + ename);
+            console.log('url:' + eurl);
+        }*/
+        //temp_obj = emotes_info_obj;
+        
+    });
+    }catch(err){
+    
+    }
+    
     checkChatConnections();
     
 }
@@ -5388,8 +5417,9 @@ function addMessage(el){
         
         var textnodeAvatar = document.createElement("div");
         textnodeAvatar.classList.add("avatar");
-        textnodeAvatar.innerHTML = "<img class=\"userav\" src=\"" + el.avatar + "\" >";
-        textnodeAvatar.addEventListener('click', function(e){
+        //textnodeAvatar.innerHTML = "<img class=\"userav\" src=\"" + el.avatar + "\" >";
+        textnodeAvatar.innerHTML = "<img class=\"userav\" src=\"https://bw.rnih.org/emotes/dead_sus_troll_standing.png\" style=\"background: rgb(32, 99, 223);\">";
+       textnodeAvatar.addEventListener('click', function(e){
             // do something
             var atmessage = $("textarea#message").val()
                 atmessage += "@" + el.username + " ";
@@ -6144,14 +6174,160 @@ function hydratev2 (data) {
         }
 
       }
+      window.chatUrl = 'wss://137-220-60-228.robotstreamer.com:8765';
+        window.chatWS = new WebSocket(window.chatUrl);
+
+        window.chatWS.onmessage = function(event) {
+                onMessageReceived(event.data);
+            }
+            
+            window.chatWS.onopen = function(event) {
+                // robot ownerid and robotid is required to send when globalchat disabled
+                window.chatWS.send(JSON.stringify({
+                    type: 'connect',
+                    message: 'joined',
+                    token: window.localStorage.getItem("robotstreamer_token"),	//only required on connect
+                    //robot_id: window.robot_id.toString(),						//only required on connect
+                    //owner_id: window.owner_id.toString() 						//only required on connect
+                    'robot_id':"4126",
+                    'owner_id': "52267",
+                }));
+            };
+
+        function onMessageReceived(data, parseJson = true) {
+            var json = data;
+            if (parseJson) {
+                var json = JSON.parse(data);
+                console.log(json)
+                try{
+                    if(json.type){
+                    }else{
+                        // should try to get out the robot id and use it to find the name to use robot_id
+                        const rbotname = "RS-" + json.robot_id;//getRsChannelName();
+                        const repack = { message: json.message, user: 'RS-' + json.username, msg_id: json.sid, user_count:-1,channel:rbotname};
+                        said(repack);
+                    }
+                }catch(ex)
+                {
+                
+                }
+            }
+            
+            //rcvMessageBulk(data);
+            
+
+            
+            
+        }
+        /*
+        var greToken = "check-if-cached";
+        sendWithConnect(JSON.stringify({
+				'message': message,
+				'token': localStorage.getItem("robotstreamer_token"),
+				'robot_id': window.robot_id.toString(),
+				'owner_id': window.owner_id.toString(),
+				'gre_token': greToken,
+				'tts_price': _global_js__WEBPACK_IMPORTED_MODULE_2__["ttsPriceOnLoad"],
+				'sound_price': _global_js__WEBPACK_IMPORTED_MODULE_2__["soundPriceOnLoad"]
+			}));
+			
+        window.chatWS.onopen = function(event) {
+            // robot ownerid and robotid is required to send when globalchat disabled
+            window.chatWS.send(JSON.stringify({
+                type: 'connect',
+                message: 'joined',
+                token: window.localStorage.getItem("robotstreamer_token"),	//only required on connect
+                robot_id: window.robot_id.toString(),						//only required on connect
+                owner_id: window.owner_id.toString() 						//only required on connect
+            }));
+        };
+			
+			*/
+      // "module.exports = {\n    \"invisible_recaptcha_site_key\": \"6LdOr3MUAAAAAL5xA5OBPxaA7_YEMVXltGsstBet\",\n    \"visible_recaptcha_site_key\": \"6Lc74pEUAAAAAEZNxpA2qj1vZbM_ZlJiPjwe7EvZ\",\n    \"api_host\": \"api.robotstreamer.com\",\n    \"api_port\": \"8080\",\n    \"api_tls_port\": \"443\",\n    \"webrtc_sfu\": \"wss://av.robotstreamer.com:4443\",\n    \"webrtc_logging\": true,\n    \"webrtc_stream_button\": true,\n    \"video_endpoint_prefix\": \"enduser_\",\n    \"domain\": \"robotstreamer.com\",\n    \"give_alert_threshold\": 10,\n    \"force_ssl\": true,\n    \"allow_control_whitelist\": true,\n    \"b2Prefix\": \"https://f000.backblazeb2.com/file/robotstreamer/\",\n    \"navbar_links\": \"\\\n            <a href=\\\"/\\\"><li>HOME</li></a>\\\n            <a href=\\\"https://downloads.robotstreamer.com/androidapp/\\\"><li>ANDROID APP</li></a>\\\n            <a href=\\\"https://robotstreamer.com/robots.html\\\"><li>ADD ROBOT</li></a>\\\n            <a href=https://robotstreamer.com/new_stream2.html><li>ADD GAMESTREAM</li></a>\\\n            <a href=\\\"https://discord.gg/9FnXgs9wez\\\"><li>DISCORD</li></a>\\\n            <a href=\\\"https://store.robotstreamer.com\\\"><li>STORE</li></a>\",\n\n\n    \"nav_html\": \"\\\n          <li><a href=\\\"/\\\">HOME</a></li>\\\n          <li>ADD STREAM <i class=\\\"fas fa-caret-down fa-lg\\\"></i>\\\n            <div class=\\\"dropdown\\\">\\\n              <div class=\\\"dropdown-text\\\"><a href=\\\"https://robotstreamer.com/robots.html\\\">Add Robot</a></div>\\\n              <div class=\\\"dropdown-text\\\"><a href=https://robotstreamer.com/new_stream2.html>Add Gamestream</a></div>\\\n            </div>\\\n          </li>\\\n          <li><a href=\\\"https://discord.gg/9FnXgs9wez\\\">DISCORD</a></li>\\\n          <li><a href=\\\"https://store.robotstreamer.com/\\\">STORE</a></li>\\\n          <li><a href=\\\"https://downloads.robotstreamer.com/androidapp/\\\">ANDROID APP</a></li>\\\n          <li><i class=\\\"fas fa-ellipsis-h\\\"></i>\\\n            <div class=\\\"dropdown\\\">\\\n              <div class=\\\"dropdown-text\\\"><a href=\\\"https://www.youtube.com/channel/UCRwmCvqteRkipsSiDmZ4tqg\\\">Youtube</a></div>\\\n              <div class=\\\"dropdown-text\\\"><a href=\\\"https://www.patreon.com/robotstreamer\\\">Patreon</a></div>\\\n              <div class=\\\"dropdown-text\\\"><a href=\\\"https://wefunder.com/robotstreamer\\\">Wefunder</a></div>\\\n            </div>\\\n          </li>\"\n\n};\n\n\n//# sourceURL=webpack:///./config.js?");
+      //{"0":[["python websocket client authentication",0,[362,308,394,439,468,357],{"zl":40009}],["python websocket send json",0,[362,308,394,439,468,357],{"zl":40009}],["python websocket vs websockets",0,[362,308,394,439,468,357],{"zl":40009}],["python websockets github",0,[362,308,394,439,468,357],{"zl":40009}],["websockets python flask",0,[362,308,394,439,468,357],{"zl":40009}],["python websocket multiple clients",0,[362,308,394,439,468,357],{"zl":40009}],["python websockets without asyncio",0,[362,308,394,439,468,357],{"zl":40009}],["python http server with websockets",0,[362,308,394,439,357],{"zl":40009}],["websocket stream python",0,[362,308,394,439,357],{"zl":40009}],["python-websocket server github",0,[362,308,394,439,468,357],{"zl":40009}]],"1":{"ag":{"a":{"40009":["Related to recent searches"]}},"q":"-kTUJpCGtMUUTLVppFCJ-9x4ft8"}}
+      
+      function getRsChannelName(robot_id){
+        //  does post request to api.robotstreamer.com/robot_page_load
+        const endpoint = 'https://api.robotstreamer.com/v1/robot_page_load';
+        //console.log('user token', usertoken)
+        const payload = {
+        token: window.localStorage.getItem("robotstreamer_token"),
+        'robot_id': "4126",
+        
+        };
+        //const { data } = await this.$axios.post( endpoint, payload, { progress: false, skipAuth: true } );
+        try{
+        /*var xhr = new XMLHttpRequest();
+        xhr.open("POST", endpoint,true);
+        xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify(payload)); */
+        
+        $.post( endpoint, payload, function(data, status){
+                    console.log(status);
+                    if(status == "success"){
+                            const API = data;
+                            
+                            // does api request with robot_id and chat token
+                            // fetch robot name from latest api page load
+                            for (var i = API.robots.length - 1; i >= 0; i--) {
+                                for (var index = 0; index < API.robots[i].robots.length; ++index) {
+                                    if(API.robots[i].robots[index].robot_id == json.robot_id){
+                                        botName = new String(API.robots[i].robots[index].robot_name).replace("<", "&lt;");
+                                        return botName;
+                                    }
+                                }
+                            }
+                    }
+                });
+        
+        //var {data} = await 
+        /*$.ajax({
+                url: endpoint,
+                type: 'POST',
+                data: JSON.stringify(payload),
+                contentType: "application/json",
+                dataType: 'json'
+            });*/
+        //  console.log("whisper result:", data)
+            //$("textarea#message").val();
+        }catch(ex){
+            console.log(ex)
+            return "undefined rb name";
+        }
+        
+      }
+
+      function rsSend(){
+        var message = $("textarea#message").val();
+        //if (greToken && greToken.length > 1) {
+        console.log("Should send a message via rs is it's connected");
+        //}
+        try{
+        
+        var restofmessage = message.substring(message.replace("/rs ",""));
+        const msg = {
+            message:restofmessage,
+            'robot_id':"4126",
+            'owner_id': "52267",
+            
+            
+        };
+        //'token': window.localStorage.getItem("robotstreamer_token"),
+        window.chatWS.send(JSON.stringify(msg));
+        $("textarea#message").val("");
+        }catch(ex){
+            console.log("Error sending",ex);
+        }
+      
+      }
       
       function roll(n){
          return Math.floor(Math.random() * n) + 1
       }
         //restartConnection();
-      setInterval(function(){ getChannelInfo(); }, 15000);
+      //setInterval(function(){ getChannelInfo(); }, 15000);
       setInterval(function(){ checkForNewPremiumEmotes();},20000);
-      setTimeout(function(){ restartConnection(); }, 3000);
+      //setTimeout(function(){ restartConnection(); }, 3000);
       
       /*grecaptcha.ready(function() {
             grecaptcha.execute('6LcEX8QUAAAAADjiUPfbzkyn0KYAaEK263quzCGh', {action: 'litechat'}).then(function(token) {
