@@ -6250,9 +6250,49 @@ function hydratev2 (data) {
       // "module.exports = {\n    \"invisible_recaptcha_site_key\": \"6LdOr3MUAAAAAL5xA5OBPxaA7_YEMVXltGsstBet\",\n    \"visible_recaptcha_site_key\": \"6Lc74pEUAAAAAEZNxpA2qj1vZbM_ZlJiPjwe7EvZ\",\n    \"api_host\": \"api.robotstreamer.com\",\n    \"api_port\": \"8080\",\n    \"api_tls_port\": \"443\",\n    \"webrtc_sfu\": \"wss://av.robotstreamer.com:4443\",\n    \"webrtc_logging\": true,\n    \"webrtc_stream_button\": true,\n    \"video_endpoint_prefix\": \"enduser_\",\n    \"domain\": \"robotstreamer.com\",\n    \"give_alert_threshold\": 10,\n    \"force_ssl\": true,\n    \"allow_control_whitelist\": true,\n    \"b2Prefix\": \"https://f000.backblazeb2.com/file/robotstreamer/\",\n    \"navbar_links\": \"\\\n            <a href=\\\"/\\\"><li>HOME</li></a>\\\n            <a href=\\\"https://downloads.robotstreamer.com/androidapp/\\\"><li>ANDROID APP</li></a>\\\n            <a href=\\\"https://robotstreamer.com/robots.html\\\"><li>ADD ROBOT</li></a>\\\n            <a href=https://robotstreamer.com/new_stream2.html><li>ADD GAMESTREAM</li></a>\\\n            <a href=\\\"https://discord.gg/9FnXgs9wez\\\"><li>DISCORD</li></a>\\\n            <a href=\\\"https://store.robotstreamer.com\\\"><li>STORE</li></a>\",\n\n\n    \"nav_html\": \"\\\n          <li><a href=\\\"/\\\">HOME</a></li>\\\n          <li>ADD STREAM <i class=\\\"fas fa-caret-down fa-lg\\\"></i>\\\n            <div class=\\\"dropdown\\\">\\\n              <div class=\\\"dropdown-text\\\"><a href=\\\"https://robotstreamer.com/robots.html\\\">Add Robot</a></div>\\\n              <div class=\\\"dropdown-text\\\"><a href=https://robotstreamer.com/new_stream2.html>Add Gamestream</a></div>\\\n            </div>\\\n          </li>\\\n          <li><a href=\\\"https://discord.gg/9FnXgs9wez\\\">DISCORD</a></li>\\\n          <li><a href=\\\"https://store.robotstreamer.com/\\\">STORE</a></li>\\\n          <li><a href=\\\"https://downloads.robotstreamer.com/androidapp/\\\">ANDROID APP</a></li>\\\n          <li><i class=\\\"fas fa-ellipsis-h\\\"></i>\\\n            <div class=\\\"dropdown\\\">\\\n              <div class=\\\"dropdown-text\\\"><a href=\\\"https://www.youtube.com/channel/UCRwmCvqteRkipsSiDmZ4tqg\\\">Youtube</a></div>\\\n              <div class=\\\"dropdown-text\\\"><a href=\\\"https://www.patreon.com/robotstreamer\\\">Patreon</a></div>\\\n              <div class=\\\"dropdown-text\\\"><a href=\\\"https://wefunder.com/robotstreamer\\\">Wefunder</a></div>\\\n            </div>\\\n          </li>\"\n\n};\n\n\n//# sourceURL=webpack:///./config.js?");
       //{"0":[["python websocket client authentication",0,[362,308,394,439,468,357],{"zl":40009}],["python websocket send json",0,[362,308,394,439,468,357],{"zl":40009}],["python websocket vs websockets",0,[362,308,394,439,468,357],{"zl":40009}],["python websockets github",0,[362,308,394,439,468,357],{"zl":40009}],["websockets python flask",0,[362,308,394,439,468,357],{"zl":40009}],["python websocket multiple clients",0,[362,308,394,439,468,357],{"zl":40009}],["python websockets without asyncio",0,[362,308,394,439,468,357],{"zl":40009}],["python http server with websockets",0,[362,308,394,439,357],{"zl":40009}],["websocket stream python",0,[362,308,394,439,357],{"zl":40009}],["python-websocket server github",0,[362,308,394,439,468,357],{"zl":40009}]],"1":{"ag":{"a":{"40009":["Related to recent searches"]}},"q":"-kTUJpCGtMUUTLVppFCJ-9x4ft8"}}
       
+      async function getRsChannels(){
+        const endpoint = 'https://api.robotstreamer.com/v1/robot_page_load';
+        //console.log('user token', usertoken)
+        const payload = {
+        token: window.localStorage.getItem("robotstreamer_token"),
+        'robot_id': "4126",
+        
+        };
+        // need to fix up the headers to use https://robotstreamer.com/
+        try{
+        let thinger = await fetch("https://api.robotstreamer.com/v1/robot_page_load", {
+                "headers": {
+                    "accept": "application/json, text/plain, */*",
+                    "accept-language": "en-US,en;q=0.9",
+                    "content-type": "application/json;charset=UTF-8",
+                    "sec-ch-ua": "\"Chromium\";v=\"93\", \" Not;A Brand\";v=\"99\"",
+                    "sec-ch-ua-mobile": "?0",
+                    "sec-ch-ua-platform": "\"Linux\"",
+                    "sec-fetch-dest": "empty",
+                    "sec-fetch-mode": "cors",
+                    "sec-fetch-site": "same-site"
+                },
+                "referrer": "https://robotstreamer.com/",
+                "referrerPolicy": "strict-origin-when-cross-origin",
+                "body": "{\"token\":null,\"robot_id\":\"4634\"}",
+                "method": "POST",
+                "mode": "cors",
+                "credentials": "omit"
+                }).then( response => {
+                    return response;
+                });
+                
+        return thinger;
+        }catch(ex){
+            console.log(ex)
+            return {};
+        }
+      
+      }
+      
       function getRsChannelName(robot_id){
         //  does post request to api.robotstreamer.com/robot_page_load
-        const endpoint = 'https://api.robotstreamer.com/v1/robot_page_load';
+        const endpoint = 'http://api.robotstreamer.com:8080/v1/get_robot/' + robot_id;
         //console.log('user token', usertoken)
         const payload = {
         token: window.localStorage.getItem("robotstreamer_token"),
@@ -6266,7 +6306,7 @@ function hydratev2 (data) {
         xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
         xhr.send(JSON.stringify(payload)); */
         
-        $.post( endpoint, payload, function(data, status){
+        $.get( endpoint, function(data, status){
                     console.log(status);
                     if(status == "success"){
                             const API = data;
@@ -6308,7 +6348,7 @@ function hydratev2 (data) {
         //}
         try{
         
-        var restofmessage = message.substring(message.replace("/rs ",""));
+        var restofmessage = message.replace("/rs ","");
         const msg = {
             message:restofmessage,
             'robot_id':"4126",
