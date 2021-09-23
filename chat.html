@@ -947,6 +947,7 @@ var recaptchat = null;
 
 var fatchatemotes = [];
 
+var slashRS = 1;
 
 var do_ignore = true;
 
@@ -4272,10 +4273,14 @@ function send(){
         
         // say this to only litechat
         
-        rsSend();
+        slashRS = slashRS * -1;
+	$("textarea#message").val("");
         return;
     }
-    
+    if(slashRS == -1){
+	rsSend();
+	return;
+    }
     
     if(messageText.substr(0,7) == "/how2lc"){
         //toggleAFK();
