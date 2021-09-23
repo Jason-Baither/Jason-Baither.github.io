@@ -723,7 +723,7 @@ textarea:valid {
 <div class="labelhelper">
     <!--  has been removed from the list to preven auto channel changing... -->
     <input  placeholder="Your username" name="username" type="text" id="userid"></input><div class="labelhelper">Channel:</div> 
-    <select onchange='channelListDropSelectionChanged()' id="channelselect" > <option value="MarkPugner">MarkPugner</option><option value="playlistbot9k">playlistbot9k</option><option value="GypsyCrySadder">GypsyCrySadder</option><option value="FaggotSam">FaggotSam</option><option value="Herbbudgreen">Herbbudgreen</option><option value="Cyberdemon531">Cyberdemon531</option><option value="BaggyGreen">BaggyGreen</option></select><select id="channelselectoffline" > <option value="MarkPugner">MarkPugner</option></select><input onchange = "messageFilterStateChange(this)" id="filterchatbychannel" type="checkbox" name="Filter Chat to Channel" value="filterchat"><div class="labelhelper wrapper" >FM<div class="tooltip">
+    <select onchange='channelListDropSelectionChanged()' id="channelselect" > <option value="JDANKS420">JDANKS420</option></select><select id="channelselectoffline" > <option value="JDANKS420">JDANKS420</option></select><input onchange = "messageFilterStateChange(this)" id="filterchatbychannel" type="checkbox" name="Filter Chat to Channel" value="filterchat"><div class="labelhelper wrapper" >FM<div class="tooltip">
         Filter Messages
     </div></div><input onchange = "trollFilterStateChange(this)" id="filterchattrolls" type="checkbox" name="Filter Chat to Channel" value="filterchattrolls"><div class="labelhelper wrapper" id="parent">TBG<div class="tooltip">
         Troll Be Gone
@@ -5551,7 +5551,12 @@ function addMessage(el){
     textnodeChannelName.addEventListener('click', function(e){
         // do something
         //console.log('clikcked:', el.channel);
-        changeChatChannel(el.channel);
+	if(el.channel.includes('~') == false){
+            changeChatChannel(el.channel);
+	} else {
+	    $("textarea#roid").val(el.channel.split("~")[0]);
+	    $("textarea#owid").val(el.channel.split("~")[1]);
+	}
         }
         
         // might be nice to auto fill whispers here
@@ -6209,7 +6214,7 @@ function hydratev2 (data) {
                     if(json.type){
                     }else{
                         // should try to get out the robot id and use it to find the name to use robot_id
-                        const rbotname = json.robot_id + "-" + json.owner_id;//getRsChannelName();
+                        const rbotname = json.robot_id + "~" + json.owner_id;//getRsChannelName();
                         const repack = { message: json.message, user: '~' + json.username, msg_id: json.sid, user_count:-1,channel:rbotname};
                         said(repack);
                     }
