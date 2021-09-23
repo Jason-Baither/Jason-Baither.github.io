@@ -889,8 +889,8 @@ textarea:valid {
 <input id="spamstop" onclick="spamMStop()" value="Spam Stop" type="button">
 </div>
 <div>
-<textarea minlength="3" maxlength="20" placeholder="delay" id="spamDelay" cols="8" rows="1"></textarea><textarea minlength="0" maxlength="3" placeholder="antispam" id="ptotal" cols="8" rows="1"></textarea><textarea minlength="0" maxlength="8" placeholder="robot id" id="roid" cols="8" rows="1"></textarea>
-<textarea minlength="0" maxlength="8" placeholder="owner id" id="owid" cols="8" rows="1"></textarea>
+<textarea minlength="3" maxlength="20" placeholder="delay" id="spamDelay" cols="8" rows="1"></textarea><textarea minlength="0" maxlength="3" placeholder="antispam" id="ptotal" cols="8" rows="1"></textarea><textarea minlength="0" maxlength="8" placeholder="robot id" id="roid" cols="8" rows="1">4126</textarea>
+<textarea minlength="0" maxlength="8" placeholder="owner id" id="owid" cols="8" rows="1">52267</textarea>
 </div>
 
 <script>
@@ -930,9 +930,6 @@ function silence(){
     const selected_channel = "";//$( "#channelselect option:selected" ).text();
     window.open(chaturl+selected_channel,'_blank');
 }
-
-$("textarea#roid").val("4126");
-$("textarea#owid").val("52267");
 
 "use strict";
 var socket = null;
@@ -6212,7 +6209,7 @@ function hydratev2 (data) {
                     if(json.type){
                     }else{
                         // should try to get out the robot id and use it to find the name to use robot_id
-                        const rbotname = json.robot_id;//getRsChannelName();
+                        const rbotname = json.robot_id + "-" + json.owner_id;//getRsChannelName();
                         const repack = { message: json.message, user: '~' + json.username, msg_id: json.sid, user_count:-1,channel:rbotname};
                         said(repack);
                     }
@@ -6356,8 +6353,8 @@ function hydratev2 (data) {
         var restofmessage = message.replace("/rs ","");
         const msg = {
             message:restofmessage,
-            'robot_id':"$("textarea#roid").val()",
-            'owner_id': "$("textarea#owid").val()",
+            'robot_id':$("textarea#roid").val(),
+            'owner_id': $("textarea#owid").val(),
             
             
         };
